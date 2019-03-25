@@ -1,59 +1,23 @@
-import React, { Component } from 'react';
-import { View, TextInput, Button, StyleSheet} from 'react-native';
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
 
-class PlaceInput extends Component {
+import ListItem from '../list-item/ListItem';
 
-  state = {
-    placeName: "",
-  };
+const placeList = props => {
 
-  placeNameChangeHandler = val => {
-    this.setState({
-      placeName: val
-    });
-  };
+  const placesOutput = props.places.map((place, i) => (
+    <ListItem key={i} placeName={place} />
+  ));
 
-  placeSubmitHandler = () => {
-    if (this.state.placeName.trim() === "") {
-      return;
-    }
-    this.props.onPlaceAdded(this.state.placeName);
-  };
-
-
-  render() {
-    return (
-      <View style={styles.placeInputContainer}>
-        <TextInput
-          placeholder="An awesome place"
-          value={this.state.placeName}
-          onChangeText={this.placeNameChangeHandler}
-          style={styles.placeInput}
-          />
-      
-        <Button
-          title="Add"
-          style={styles.placeButton}
-          onPress={this.placeSubmitHandler}/>
-      </View>
-    );
-  }
-}
+  return (
+    <View style={styles.listContainer}>{placesOutput}</View>
+  );
+};
 
 const styles = StyleSheet.create({
-  placeInputContainer: {
-    //flex: 1,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  placeInput: {
-    width: "70%"
-  },
-  placeButton: {
-    width: "30%"
+  listContainer: {
+    width: "100%"
   }
 });
 
-export default PlaceInput;
+export default placeList;

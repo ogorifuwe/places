@@ -16,4 +16,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#eee"
   }
 });
+
 export default listItem;
