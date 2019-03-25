@@ -1,0 +1,78 @@
+import React, {Component} from 'react';
+import {Platform, StyleSheet, Text, View, TextInput, Button } from 'react-native';
+
+export default class App extends Component {
+  state = {
+    placeName: "",
+    places: []
+  };
+
+  /* handle place name change */
+  placeNameChangeHandler = val => {
+    this.setState({
+      placeName: val
+    });
+  };
+
+  /* handle place submit button */
+  placeSubmitHandler = () => {
+    if (this.state.placeName.trim() === "") { // check that placeName has a value
+      return;
+    }
+
+    this.setState(prevState => {
+      return {
+        places: prevState.places.concat(prevState.placeName)
+      };
+    });
+  };
+
+
+  render() {
+    /*const placesOutput = this.state.places.map((place, i) => (<Text key={i}>{place}</Text>));*/
+    return (
+      <View style={styles.container}>
+        
+        /* view for "TextInput and Button" */
+        <View style={styles.placeContainer}>
+          <TextInput 
+            placeholder="An awesome place"
+            value={this.state.placeName}
+            onChangeText={this.placeNameChangeHandler}
+            style={styles.placeInput}
+          />
+          <Button
+            title="Add"
+            style={styles.placeButton}
+            onPress={this.placeSubmitHandler}/>
+        </View>
+        
+        /* view for display of places output  */
+        /*<View>{placesOutput}</View>*/
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  placeContainer: {
+    //flex: 1,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  placeInput: {
+    width: "70%"
+  },
+  placeButton: {
+    width: "30%"
+  }
+});

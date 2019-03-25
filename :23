@@ -1,0 +1,51 @@
+import React, {Component} from 'react';
+import {Platform, StyleSheet, Text, View, TextInput, Button } from 'react-native';
+
+export default class App extends Component {
+  state = {
+    placeName: ""
+  };
+
+  /* handle place name change */
+  placeNameChangeHandler = val => {
+    this.setState({
+      placeName: val
+    });
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.placeContainer}>
+          <TextInput 
+            placeholder="An awesome place"
+            value={this.state.placeName}
+            onChangeText={this.placeNameChangeHandler}
+          />
+          <Button title="Add" />
+        </View>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  placeContainer: {
+    //flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  placeInput: {
+    width: "70%"
+  },
+  placeButton: {
+    width: "30%"
+  }
+});
