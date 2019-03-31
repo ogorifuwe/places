@@ -17,14 +17,23 @@ import PickImage from '../../components/pick-image/PickImage';
 import PickLocation from '../../components/pick-location/PickLocation';
 import HeaderText from '../../components/ui/HeaderText';
 import MainText from '../../components/ui/MainText';
-
+import validate from '../../utility/Validation';
 class SharePlaceScreen extends Component {
   static navigatorStyle = {
     navBarButtonColor: "orange"  
   }
 
   state = {
-    placeName: ""
+    controls: {
+      placeName: {
+        value: "",
+        valid: false,
+        validationRules: {
+          notEmpty: true
+        },
+        touched: false
+      }
+    }
   };
 
   constructor(props) {
@@ -43,14 +52,24 @@ class SharePlaceScreen extends Component {
   };
 
   placeNameChangeHandler = val => {
-    this.setState({
-      placeName: val
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          placeName: {
+            ...prevState.controls.placeName,
+            value: val,
+            valid: validate(val, prevState.controls.placeName.validationRules),
+            touched: true
+          }
+        }
+      }
     });
   };
 
   placeAddedHandler = () => {
-    if (this.state.placeName.trim() !== "") {
-      this.props.onAddPlace(this.state.placeName);
+    if (this.state.controls.placeName.value.trim() !== "") {
+      this.props.onAddPlace(this.state.controls.placeName.value);
     }
   };
 
@@ -67,13 +86,14 @@ class SharePlaceScreen extends Component {
           <PickLocation />
 
           <PlaceInput
-            placeName={this.state.placeName}
+            placeData={this.state.controls.placeName}
             onChangeText={this.placeNameChangeHandler}
           />
           <View style={styles.button}>
             <Button
               title="Share the Place!"
               onPress={this.placeAddedHandler}
+              disabled={!this.state.controls.placeName.valid}
             />
           </View>
         </View>
